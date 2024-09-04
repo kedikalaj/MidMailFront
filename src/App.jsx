@@ -1,24 +1,40 @@
-import { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import Register from './pages/Register';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import  SignInPage  from './pages/SignInPage'
+import SignupSecondStep from './pages/SignupSecondStep';
 import Home from './pages/Home';
 import './styles/App.css'
+import Dashboard from '../src/pages/dashboard/Dashboard.js';
 
 function App() {
-  const [count, setCount] = useState(0)
 
+  const token = localStorage.getItem('authToken');
+  const activeUser = localStorage.getItem('activeuser');
+
+  // Convert activeUser to boolean if it's not null
+  const isActive = activeUser === 'true';
+ 
   return (
-    <Router>
-      <div style={{ display: 'flex' }}>
-        <div style={{ flex: 1 }}>
-          <Routes>
-            <Route path="/" element={<Home />} /> 
-            <Route path="/register" element={<Register />} />
-          </Routes>
-        </div>
-      </div>
-    </Router>
+    
+    <Routes>
+   
+    <Route
+          path="/"
+          element={
+            (token === null || activeUser === null   ? <Navigate to="/signin" /> : <Home />)
+          }
+        />
+
+        <Route path="/signin"       element={
+            (token === null || activeUser === null   ?  <SignInPage /> : <Navigate to="/" />)
+          } />
+        <Route path="/asd" element={<Dashboard />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    
+  
+
+
   )
 }
 

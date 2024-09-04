@@ -9,6 +9,8 @@ import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { createTheme, ThemeProvider } from '@mui/material/styles';  
 import Sales from './Sales'; 
+import Dashboard from './dashboard/Dashboard';
+import SignupSecondStep from './SignupSecondStep';
 
 const NAVIGATION = [
     {
@@ -68,6 +70,11 @@ const demoTheme = createTheme({
       },
     },
 });
+const clearToken = () => {
+  localStorage.clear()
+ 
+  window.location.reload()
+};
 
 function DashboardContent() {
   return (
@@ -80,7 +87,9 @@ function DashboardContent() {
         textAlign: 'center',
       }}
     >
-      <Typography>Dashboard content</Typography>
+      <Typography>Dashboard content</Typography> <div>
+      <button onClick={clearToken}>Clear Token</button>
+    </div>
     </Box>
   );
 }
@@ -104,9 +113,11 @@ function SalesContent() {
 function DemoPageContent({ pathname }) {
   switch (pathname) {
     case '/reports/sales':
-        console.log(1);
       return <Sales />;
+      case '/reports/traffic':
+        return <SignupSecondStep />;
     case '/dashboard':
+      return <Dashboard />;
     default:
       return <DashboardContent />;
   }
@@ -137,7 +148,6 @@ function Home(props) {
     >
       <DashboardLayout>
         <DemoPageContent pathname={pathname} />        
-    
       </DashboardLayout>
     </AppProvider>
   );
