@@ -11,45 +11,30 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Sales from './Sales'; 
 import Dashboard from './dashboard/Dashboard';
 import SignupSecondStep from './SignupSecondStep';
+import SendEmailPage from './SendEmailPage';
 
 const NAVIGATION = [
     {
       kind: 'header',
-      title: 'Main items',
+      title: 'Dashboard',
     },
     {
       segment: 'dashboard',
       title: 'Dashboard',
       icon: <DashboardIcon />,
     },
-    {
-      segment: 'orders',
-      title: 'Orders',
-      icon: <ShoppingCartIcon />,
-    },
+
     {
       kind: 'divider',
     },
     {
       kind: 'header',
-      title: 'Analytics',
+      title: 'Emails',
     },
     {
-      segment: 'reports',
-      title: 'Reports',
-      icon: <BarChartIcon />,
-      children: [
-        {
-          segment: 'sales',
-          title: 'Sales',
-          icon: <DescriptionIcon />,
-        },
-        {
-          segment: 'traffic',
-          title: 'Traffic',
-          icon: <DescriptionIcon />,
-        },
-      ],
+      segment: 'newemails',
+      title: 'Send New Emails',
+      icon: <LayersIcon />,
     },
     {
       segment: 'integrations',
@@ -114,6 +99,8 @@ function DemoPageContent({ pathname }) {
   switch (pathname) {
     case '/reports/sales':
       return <Sales />;
+      case '/newemails':
+        return <SendEmailPage />;
       case '/reports/traffic':
         return <SignupSecondStep />;
     case '/dashboard':

@@ -41,7 +41,7 @@ function getDaysInMonth(month, year) {
 
 export default function SessionsChart() {
   const theme = useTheme();
-  const data = getDaysInMonth(4, 2024);
+  const data = getDaysInMonth(9, 2024);
 
   const colorPalette = [
     theme.palette.primary.light,
@@ -65,12 +65,12 @@ export default function SessionsChart() {
             }}
           >
             <Typography variant="h4" component="p">
-              13,277
+             api
             </Typography>
             <Chip size="small" color="success" label="+35%" />
           </Stack>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            Sessions per day for the last 30 days
+            Emails sent per day for this month
           </Typography>
         </Stack>
         <LineChart
@@ -92,10 +92,11 @@ export default function SessionsChart() {
               area: true,
               stackOrder: 'ascending',
               data: [
-                300, 900, 600, 1200, 1500, 1800, 2400, 2100, 2700, 3000, 1800, 3300,
-                3600, 3900, 4200, 4500, 3900, 4800, 5100, 5400, 4800, 5700, 6000,
-                6300, 6600, 6900, 7200, 7500, 7800, 8100,
-              ],
+                0, 50, 20, 70, 30, 100, 140, 120, 160, 180, 150,
+                200, 240, 270, 220, 290, 310, 250, 330, 350, 300, 370,
+                400, 420, 380, 440, 460, 490, 510, 530]
+              
+              
             },
             {
               id: 'referral',
@@ -106,10 +107,12 @@ export default function SessionsChart() {
               area: true,
               stackOrder: 'ascending',
               data: [
-                500, 900, 700, 1400, 1100, 1700, 2300, 2000, 2600, 2900, 2300, 3200,
-                3500, 3800, 4100, 4400, 2900, 4700, 5000, 5300, 5600, 5900, 6200,
-                6500, 5600, 6800, 7100, 7400, 7700, 8000,
-              ],
+                0, 50, 20, 70, 30, 100, 140, 120, 160, 180, 150,
+                200, 240, 270, 220, 290, 310, 250, 330, 350, 300, 370,
+                400, 420, 380, 440, 460, 490, 510, 530
+              ]
+                           
+              ,
             },
             {
               id: 'organic',
@@ -119,10 +122,12 @@ export default function SessionsChart() {
               stack: 'total',
               stackOrder: 'ascending',
               data: [
-                1000, 1500, 1200, 1700, 1300, 2000, 2400, 2200, 2600, 2800, 2500,
-                3000, 3400, 3700, 3200, 3900, 4100, 3500, 4300, 4500, 4000, 4700,
-                5000, 5200, 4800, 5400, 5600, 5900, 6100, 6300,
-              ],
+                0, 50, 20, 70, 30, 100, 140, 120, 160, 180, 150,
+                200, 240, 270, 220, 290, 310, 250, 330, 350, 300, 370,
+                400, 420, 380, 440, 460, 490, 510, 530
+              ]
+              
+              ,
               area: true,
             },
           ]}

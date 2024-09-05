@@ -11,16 +11,17 @@ import HighlightedCard from './HighlightedCard';
 import PageViewsBarChart from './PageViewsBarChart';
 import SessionsChart from './SessionsChart';
 import StatCard from './StatCard';
+import  EmailTable   from './EmailTable'
 
 const data = [
   {
-    title: 'Emails Sent',
+    title: 'Alltime',
     value: '14k<api>',
     interval: 'Last 30 days',
     trend: 'up',
     data: [
-      200, 24, 220, 260, 240, 380, 100,  1, 1, 1, 1, 1, 1, 360, 340, 380,
-      360, 400, 380, 420, 400, 640, 340, 460, 0, 0, 0, 0, 0, 0,
+      200, 24, 220, 260, 240, 380, 100,  1, 1, 1, 1, 1, 1, 360, 340, 
+      
     ],
   },
   {
@@ -66,23 +67,24 @@ export default function MainGrid() {
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <HighlightedCard />
         </Grid>
+       
         <Grid size={{ sm: 12, md: 6 }}>
           <SessionsChart />
         </Grid>
         <Grid size={{ sm: 12, md: 6 }}>
           <PageViewsBarChart />
         </Grid>
+ 
       </Grid>
       <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-        Details
+    All Email Sent fromapi
       </Typography>
       <Grid container spacing={2} columns={12}>
         <Grid size={{ md: 12, lg: 9 }}>
-          <CustomizedDataGrid />
+          <EmailTable />
         </Grid>
         <Grid size={{ xs: 12, lg: 3 }}>
           <Stack gap={2} direction={{ xs: 'column', sm: 'row', lg: 'column' }}>
-            <CustomizedTreeView />
             <ChartUserByCountry />
           </Stack>
         </Grid>

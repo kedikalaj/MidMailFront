@@ -17,7 +17,7 @@ export default function Copyright(props) {
     >
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Sitemark
+        MidMail
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
