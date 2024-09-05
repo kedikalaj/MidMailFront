@@ -1,7 +1,8 @@
-// SignupStep2.jsx
-import React, { useState } from 'react';
-import { TextField, Button, Grid, Typography, Box } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { TextField, Button, Grid, Typography, Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
+
 
 const SignupSecondStep = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,19 @@ const SignupSecondStep = () => {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const emailFromToken = decodedToken['claim.email'];
+      setFormData((prevData) => ({
+        ...prevData,
+        email: emailFromToken,
+      }));
+    }
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -40,11 +54,11 @@ const SignupSecondStep = () => {
     }
 
     try {
-      const response = await axios.post('/api/updateUserGoogleCredentials', {
+      const response = await axios.post('https://localhost:7174/Authentication/updateUserGoogleCredentials', {
         email: formData.email,
         smtpServer: formData.smtpServer,
-        smtpPort: parseInt(formData.smtpPort, 10),
-        smtpPassword: formData.smtpPassword,
+        smptPort: formData.smtpPort,
+        smptPassword: formData.smtpPassword,
       });
 
       // Save authToken and activeUser to localStorage
@@ -58,23 +72,31 @@ const SignupSecondStep = () => {
       setSuccessMessage('');
     }
   };
+  const [open, setOpen] = useState(false);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <Box
       sx={{
         maxWidth: 600,
         margin: 'auto',
         padding: 4,
-    
-        borderRadius: 2, // Small border radius
-        boxShadow: 3, // Optional: adds shadow for a lifted effect
+        borderRadius: 2,
+        boxShadow: 3,
       }}
     >
       <Typography variant="h4" color='#FAF9F6' gutterBottom>
         Update Google Credentials
       </Typography>
+      <br></br>
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
+        <Grid container spacing={4}>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -84,6 +106,9 @@ const SignupSecondStep = () => {
               onChange={handleChange}
               error={!!errors.email}
               helperText={errors.email}
+              InputProps={{
+                readOnly: true, // Make the email field uneditable
+              }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -120,7 +145,7 @@ const SignupSecondStep = () => {
               error={!!errors.smtpPassword}
               helperText={errors.smtpPassword}
             />
-          </Grid>
+          </Grid><br></br>
           <Grid item xs={12}>
             <Button type="submit" variant="contained" color="primary">
               Update
@@ -130,6 +155,35 @@ const SignupSecondStep = () => {
       </form>
       {successMessage && <Typography color="green">{successMessage}</Typography>}
       {errorMessage && <Typography color="red">{errorMessage}</Typography>}
+
+      <br></br> 
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+    Need Help Finding These Values?
+  </Button>
+  <Dialog open={open} onClose={handleClose}>
+    <DialogTitle>SMTP Setup Help</DialogTitle>
+    <DialogContent>
+      <DialogContentText>
+        If you're unsure how to find the SMTP settings, you can follow this &nbsp;
+        <a 
+          href="https://saurabh-nakoti.medium.com/how-to-set-up-smtp-in-gmail-using-an-app-password-96adffa164b3" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          sx={{ backgroundColor: 'white', color: 'black' }} 
+        >
+          guide
+        </a> 
+        &nbsp; on setting up SMTP in Gmail using an app password.
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={handleClose} color="primary">
+        Close
+      </Button>
+    </DialogActions>
+  </Dialog>
+
+
     </Box>
   );
 };

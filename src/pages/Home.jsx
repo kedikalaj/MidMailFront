@@ -1,9 +1,8 @@
 import React from 'react';
 import { Box, CssBaseline, AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import DescriptionIcon from '@mui/icons-material/Description';
+import EmailIcon from '@mui/icons-material/Email';
+import CredentialsIcon from '@mui/icons-material/LockOpen';
 import LayersIcon from '@mui/icons-material/Layers';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
@@ -12,6 +11,7 @@ import Sales from './Sales';
 import Dashboard from './dashboard/Dashboard';
 import SignupSecondStep from './SignupSecondStep';
 import SendEmailPage from './SendEmailPage';
+
 
 const NAVIGATION = [
     {
@@ -30,16 +30,17 @@ const NAVIGATION = [
     {
       kind: 'header',
       title: 'Emails',
+      icon: <EmailIcon />,
     },
     {
       segment: 'newemails',
       title: 'Send New Emails',
-      icon: <LayersIcon />,
+      icon: <EmailIcon />,
     },
     {
-      segment: 'integrations',
-      title: 'Integrations',
-      icon: <LayersIcon />,
+      segment: 'credentials',
+      title: 'Google Credentials',
+      icon: <CredentialsIcon />,
     },
 ];
 
@@ -97,14 +98,14 @@ function SalesContent() {
 
 function DemoPageContent({ pathname }) {
   switch (pathname) {
-    case '/reports/sales':
-      return <Sales />;
+
       case '/newemails':
         return <SendEmailPage />;
-      case '/reports/traffic':
+      case '/credentials':
         return <SignupSecondStep />;
-    case '/dashboard':
-      return <Dashboard />;
+      case '/dashboard':
+        return <Dashboard />;
+
     default:
       return <DashboardContent />;
   }
