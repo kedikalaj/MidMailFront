@@ -1,13 +1,13 @@
 import React from 'react';
-import { Box, CssBaseline, AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import EmailIcon from '@mui/icons-material/Email';
 import CredentialsIcon from '@mui/icons-material/LockOpen';
-import LayersIcon from '@mui/icons-material/Layers';
+import OfflinePinIcon from '@mui/icons-material/Logout';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { createTheme, ThemeProvider } from '@mui/material/styles';  
-import Sales from './Sales'; 
+import Logout from './Logout'; 
 import Dashboard from './dashboard/Dashboard';
 import SignupSecondStep from './SignupSecondStep';
 import SendEmailPage from './SendEmailPage';
@@ -30,7 +30,6 @@ const NAVIGATION = [
     {
       kind: 'header',
       title: 'Emails',
-      icon: <EmailIcon />,
     },
     {
       segment: 'newemails',
@@ -38,9 +37,21 @@ const NAVIGATION = [
       icon: <EmailIcon />,
     },
     {
+      kind: 'divider',
+    },
+    {
+      kind: 'header',
+      title: 'User',
+    },
+    {
       segment: 'credentials',
       title: 'Google Credentials',
       icon: <CredentialsIcon />,
+    },
+    {
+      segment: 'logout',
+      title: 'Log Out',
+      icon: <OfflinePinIcon />,
     },
 ];
 
@@ -105,6 +116,8 @@ function DemoPageContent({ pathname }) {
         return <SignupSecondStep />;
       case '/dashboard':
         return <Dashboard />;
+      case '/logout':
+      return <Logout />;
 
     default:
       return <DashboardContent />;
@@ -134,8 +147,8 @@ function Home(props) {
       theme={demoTheme}
       window={demoWindow}  
       branding={{
-        logo: <img src="https://mui.com/static/logo.png" alt="MUI logo" />,
-        title: 'MidMail',
+        logo: <img src="https://mui.com/static/logo.png" alt="Mid Mail logo" />,
+        title: 'Mid Mail',
       }}
     >
       <DashboardLayout>
