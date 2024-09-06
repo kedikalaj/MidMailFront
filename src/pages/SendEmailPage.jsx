@@ -39,8 +39,8 @@ const SendEmailPage = () => {
 
     try {
       // Retrieve token from local storage
-      const token = localStorage.getItem('token');
-      console.log(token)
+      const token = localStorage.getItem('authToken');
+ 
       // Prepare the request data for sending an email
       const emailData = {
         to: emails,
@@ -50,9 +50,7 @@ const SendEmailPage = () => {
         category: data.Category // Use the category from form state
       };
       const activeUser = localStorage.getItem('activeuser');
-      console.log(activeUser)
       const isActive = activeUser === 'true';
-      console.log(isActive)
 
       // Make the Axios request with authorization header
       if (isActive) {
@@ -62,8 +60,9 @@ const SendEmailPage = () => {
           }
         });
 
-        if (response.data.success) {
+        if (response.status==200) {
           setResultMessage('Email scheduled successfully');
+          window.location.reload()
         } else {
           setResultMessage('Failed to schedule email');
         }
@@ -75,7 +74,7 @@ const SendEmailPage = () => {
       setResultMessage(`Error: ${error.message}`);
     }
   };
-
+    
   // Function to handle category suggestion based on the subject
   const handleSuggestCategory = async () => {
     const subject = watch('Subject'); // Get the subject value from form state

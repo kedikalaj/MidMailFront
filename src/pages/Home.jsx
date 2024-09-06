@@ -132,7 +132,11 @@ function Home(props) {
       navigation={NAVIGATION}
       router={router}
       theme={demoTheme}
-      window={demoWindow}
+      window={demoWindow}  
+      branding={{
+        logo: <img src="https://mui.com/static/logo.png" alt="MUI logo" />,
+        title: 'MidMail',
+      }}
     >
       <DashboardLayout>
         <DemoPageContent pathname={pathname} />        
