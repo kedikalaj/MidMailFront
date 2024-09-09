@@ -31,7 +31,7 @@ export default function PageViewsBarChart() {
             }}
           >
             <Typography variant="h4" component="p">
-              1.3M
+              47
             </Typography>
             <Chip size="small" color="error" label="-8%" />
           </Stack>
@@ -53,19 +53,19 @@ export default function PageViewsBarChart() {
             {
               id: 'page-views',
               label: 'Page views',
-              data: [2234, 3872, 2998, 4125, 3357, 2789, 2998],
+              data: [2, 3, 9, 1, 3, 7, 9],
               stack: 'A',
             },
             {
               id: 'downloads',
               label: 'Downloads',
-              data: [3098, 4215, 2384, 2101, 4752, 3593, 2384],
+              data: [0, 1, 2, 2, 4, 3, 2],
               stack: 'A',
             },
             {
               id: 'conversions',
               label: 'Conversions',
-              data: [4051, 2275, 3129, 4693, 3904, 2038, 2275],
+              data: [4, 2, 3, 4, 3, 2, 2],
               stack: 'A',
             },
           ]}

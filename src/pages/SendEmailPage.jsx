@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { TextField, Button, Grid, Container, Typography } from '@mui/material';
+import { TextField, Button, Grid, Container, Typography, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -8,9 +8,33 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 const SendEmailPage = () => {
   const { register, handleSubmit, setValue, control, formState: { errors }, watch } = useForm();
   const [resultMessage, setResultMessage] = React.useState('');
-
+  const [campaigns, setCampaigns] = useState([]);
+  const [selectedCampaign, setSelectedCampaign] = useState('');
+  
   // Regular expression for validating email addresses
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Fetch campaigns when the component mounts
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      try {
+        const response = await axios.get('https://localhost:7174/Campaign/getUserCampaigns', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+          }
+        });
+        if (response.status === 200) {
+          setCampaigns(response.data);
+        } else {
+          setResultMessage('Failed to fetch campaigns');
+        }
+      } catch (error) {
+        setResultMessage(`Error: ${error.message}`);
+      }
+    };
+
+    fetchCampaigns();
+  }, []);
 
   // Function to validate email addresses
   const validateEmails = (emails) => {
@@ -47,7 +71,8 @@ const SendEmailPage = () => {
         subject: data.Subject,
         body: data.Body,
         scheduledDate: data.ScheduledDate || null, 
-        category: data.Category // Use the category from form state
+        category: data.Category, // Use the category from form state
+        campaignId: selectedCampaign || null // Include the selected campaign ID
       };
       const activeUser = localStorage.getItem('activeuser');
       const isActive = activeUser === 'true';
@@ -60,42 +85,42 @@ const SendEmailPage = () => {
           }
         });
 
-        if (response.status==200) {
+        if (response.status === 200) {
           setResultMessage('Email scheduled successfully');
-          window.location.reload()
+          window.location.reload();
         } else {
           setResultMessage('Failed to schedule email');
         }
       } else {
-        setResultMessage('Please set up your Google SMTP Credentials at Creadentials first!');
+        setResultMessage('Please set up your Google SMTP Credentials at Credentials first!');
       }
 
     } catch (error) {
       setResultMessage(`Error: ${error.message}`);
     }
   };
-    
-  // Function to handle category suggestion based on the subject
-  const handleSuggestCategory = async () => {
-    const subject = watch('Subject'); // Get the subject value from form state
 
-    if (!subject.trim()) { // Check if subject is empty
+
+  const handleSuggestCategory = async () => {
+    const subject = watch('Subject'); 
+
+    if (!subject.trim()) {
       setResultMessage('Please enter a subject before suggesting a category.');
       return;
     }
 
     try {
-      // Retrieve token from local storage
+
       const token = localStorage.getItem('authToken');
 
-      // Make the Axios request with authorization header
+
       const response = await axios.post('https://localhost:7174/Email/getCategorySugestion', { subject: subject }, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
       if (response.status === 200) {
-        setValue('Category', response.data); // Set the category in form state based on the API response
+        setValue('Category', response.data);
         setResultMessage('');
       } else {
         setResultMessage('Failed to get category suggestion');
@@ -147,6 +172,22 @@ const SendEmailPage = () => {
                 />
               )}
             />
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth variant="outlined">
+              <InputLabel>Campaign</InputLabel>
+              <Select
+                value={selectedCampaign}
+                onChange={(e) => setSelectedCampaign(e.target.value)}
+                label="Campaign"
+              >
+                {campaigns.map((campaign) => (
+                  <MenuItem key={campaign.id} value={campaign.id}>
+                    {campaign.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={12} display="flex" alignItems="center">
             <Controller

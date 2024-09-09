@@ -15,7 +15,8 @@ import Dashboard from './dashboard/Dashboard';
 import SignupSecondStep from './SignupSecondStep';
 import SendEmailPage from './SendEmailPage';
 import Subscriptions from './Subscriptions';
-import CampaignPage from './CampaignPage'
+import CampaignPage from './CampaignPage';
+import EmailAnalytics from './EmailAnalytics';
 
 
 const NAVIGATION = [
@@ -121,7 +122,7 @@ function DemoPageContent({ pathname }) {
       case '/dashboard':
         return <Dashboard />;
       case '/analytics':
-        return <Dashboard />;
+        return <EmailAnalytics />;
       case '/campaigns':
         return <CampaignPage />;
       case '/logout':

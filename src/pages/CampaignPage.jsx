@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Card, CardContent, CircularProgress, Modal, TextField, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Button, Card, CardContent, CircularProgress, Modal, TextField, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, tableCellClasses } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import axios from 'axios';
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from 'jwt-decode';
 
 // Set up axios interceptor to include auth token
 axios.interceptors.request.use(config => {
@@ -42,7 +42,7 @@ const CampaignPage = () => {
       alert('Please fill in all fields.');
       return;
     }
-  
+
     try {
       const token = localStorage.getItem('authToken');
       const decodedToken = jwtDecode(token);
@@ -65,8 +65,8 @@ const CampaignPage = () => {
 
   const handleCampaignClick = async (campaignId) => {
     try {
-      const response = await axios.get(`https://localhost:7174/Email/getCampaignEmails?userId=${campaignId}`);
-      setEmails(response.data.Emails || []); // Ensure emails is set to an empty array if response.data.Emails is undefined
+      const response = await axios.get(`https://localhost:7174/Email/getCampaignEmails?campaignId=${campaignId}`);
+      setEmails(response.data || []); // Ensure emails is set to an empty array if response.data.Emails is undefined
       setSelectedCampaign(campaignId);
       setOpenDetailsModal(true);
     } catch (error) {
@@ -93,6 +93,16 @@ const CampaignPage = () => {
     },
   }));
 
+  const StatusButton = styled(Button)(({ isSent }) => ({
+    backgroundColor: isSent ? 'green' : 'red',
+    color: 'white',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: isSent ? 'darkgreen' : 'darkred',
+    },
+  }));
+  
+
   return (
     <div style={{ backgroundColor: '#121212', color: '#e0e0e0', padding: '16px' }}>
       <Button variant="contained" onClick={() => setOpenCreateModal(true)}>Create Campaign</Button>
@@ -101,25 +111,21 @@ const CampaignPage = () => {
           <Card key={campaign.id} style={{ backgroundColor: '#1e1e1e', color: '#e0e0e0', cursor: 'pointer', minWidth: '250px', position: 'relative', padding: '16px' }} onClick={() => handleCampaignClick(campaign.id)}>
             <CardContent>
               <Typography variant="h6">{campaign.name}</Typography>
-              <br></br>
-              <Typography variant="body2">{campaign.description}</Typography>
-              <div style={{ display: 'flex', alignItems: 'center', marginTop: '8px' }}>
-                            <CircularProgress
-                variant={campaign.OpenRate > 0 ? "determinate" : "indeterminate"}
-                value={campaign.OpenRate}
-                size={50}
-                thickness={4}
-                style={{ color: campaign.OpenRate > 0 ? '#3f51b5' : 'transparent' }}
-                />
-                {campaign.OpenRate > 0 ? (
-                  <Typography variant="caption" style={{ marginLeft: '8px' }}>
-                    {campaign.OpenRate}%
-                  </Typography>
-                ) : (
-                  <Typography variant="caption" style={{ marginLeft: '8px', color: '#888' }}>
-                    No Data
-                  </Typography>
-                )}
+              <br />
+              <Typography variant="body2">{campaign.description}</Typography>   <br ></br>
+              <Typography variant="p">Oppen Rate</Typography>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center',marginTop: '8px' }}>
+              <CircularProgress
+  key={campaign.openRate}  
+  variant={campaign.openRate >= 0 ? "determinate" : "indeterminate"}
+  value={campaign.openRate >= 0 ? campaign.openRate : 0}
+  size={50}
+  thickness={4}
+  style={{ color: campaign.openRate > 0 ? '#3f51b5' : 'transparent' }}
+/>
+                <Typography variant="caption" style={{ marginLeft: '8px' }}>
+                  {campaign.openRate >= 0 ? `${campaign.openRate}%` : 'No Data'}
+                </Typography>
               </div>
             </CardContent>
           </Card>
@@ -152,7 +158,7 @@ const CampaignPage = () => {
       <Modal open={openDetailsModal} onClose={() => setOpenDetailsModal(false)}>
         <div style={{ backgroundColor: '#1e1e1e', color: '#e0e0e0', padding: '16px', borderRadius: '8px', margin: '16px' }}>
           <Typography variant="h6">Campaign Emails</Typography>
-  
+
           {emails && emails.length > 0 ? (
             <TableContainer component={Paper} style={{ maxHeight: 400 }}>
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -162,15 +168,32 @@ const CampaignPage = () => {
                     <StyledTableCell>To</StyledTableCell>
                     <StyledTableCell>Subject</StyledTableCell>
                     <StyledTableCell>Date Sent</StyledTableCell>
+                    <StyledTableCell>Status</StyledTableCell>
+                    <StyledTableCell>Seen</StyledTableCell> 
+                    <StyledTableCell>Category</StyledTableCell> 
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {emails.map((email) => (
-                    <StyledTableRow key={email.Id}>
-                      <StyledTableCell>{email.From}</StyledTableCell>
-                      <StyledTableCell>{email.To}</StyledTableCell>
-                      <StyledTableCell>{email.Subject}</StyledTableCell>
-                      <StyledTableCell>{email.DateSent?.toLocaleString()}</StyledTableCell>
+                    <StyledTableRow key={email.id}>
+                      <StyledTableCell>{email.from}</StyledTableCell>
+                      <StyledTableCell>{email.to}</StyledTableCell>
+                      <StyledTableCell>{email.subject}</StyledTableCell>
+                      <StyledTableCell>{email.dateSent ? email.dateSent.toLocaleString() : 'N/A'}</StyledTableCell>
+  
+                      <StyledTableCell>
+                        <StatusButton isSent={email.isSent}>
+                            {email.isSent ? 'Sent' : 'Not Sent'}
+                        </StatusButton>
+                        </StyledTableCell>
+                      <StyledTableCell>
+                        <StatusButton isSent={email.seen}>
+                            {email.seen ? 'Open' : 'Not Open'}
+                        </StatusButton>
+                        </StyledTableCell>
+                      <StyledTableCell>
+                        {email.category || 'N/A'}
+                      </StyledTableCell>
                     </StyledTableRow>
                   ))}
                 </TableBody>

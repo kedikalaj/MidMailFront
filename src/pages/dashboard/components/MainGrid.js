@@ -16,7 +16,7 @@ import  EmailTable   from './EmailTable'
 const data = [
   {
     title: 'Alltime',
-    value: '14k<api>',
+    value: '42',
     interval: 'Last 30 days',
     trend: 'up',
     data: [
@@ -26,7 +26,7 @@ const data = [
   },
   {
     title: 'Emails Open',
-    value: '325<api>',
+    value: '20',
     interval: 'Last 30 days',
     trend: 'down',
     data: [
@@ -36,7 +36,7 @@ const data = [
   },
   {
     title: 'Event count',
-    value: '200k',
+    value: '20',
     interval: 'Last 30 days',
     trend: 'neutral',
     data: [
