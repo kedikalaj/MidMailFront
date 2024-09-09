@@ -4,6 +4,9 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import EmailIcon from '@mui/icons-material/Email';
 import CredentialsIcon from '@mui/icons-material/LockOpen';
 import OfflinePinIcon from '@mui/icons-material/Logout';
+import SubscriptionsImage from '@mui/icons-material/Payment';
+import CampaignImage from '@mui/icons-material/Campaign';
+import AnalyticsImage from '@mui/icons-material/Analytics';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { createTheme, ThemeProvider } from '@mui/material/styles';  
@@ -11,6 +14,8 @@ import Logout from './Logout';
 import Dashboard from './dashboard/Dashboard';
 import SignupSecondStep from './SignupSecondStep';
 import SendEmailPage from './SendEmailPage';
+import Subscriptions from './Subscriptions';
+import CampaignPage from './CampaignPage'
 
 
 const NAVIGATION = [
@@ -35,6 +40,16 @@ const NAVIGATION = [
       segment: 'newemails',
       title: 'Send New Emails',
       icon: <EmailIcon />,
+    },  
+      {
+      segment: 'campaigns',
+      title: 'Email Campaigns',
+      icon: <CampaignImage />,
+    },   
+     {
+      segment: 'analytics',
+      title: 'Email Analytics',
+      icon: <AnalyticsImage />,
     },
     {
       kind: 'divider',
@@ -47,6 +62,11 @@ const NAVIGATION = [
       segment: 'credentials',
       title: 'Google Credentials',
       icon: <CredentialsIcon />,
+    },
+    {
+      segment: 'subscriptions',
+      title: 'Subscriptions',
+      icon: <SubscriptionsImage />,
     },
     {
       segment: 'logout',
@@ -91,22 +111,6 @@ function DashboardContent() {
   );
 }
 
-function SalesContent() {
-  return (
-    <Box
-      sx={{
-        py: 4,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'center',
-      }}
-    >
-      <Typography>Sales content</Typography>
-    </Box>
-  );
-}
-
 function DemoPageContent({ pathname }) {
   switch (pathname) {
 
@@ -116,9 +120,15 @@ function DemoPageContent({ pathname }) {
         return <SignupSecondStep />;
       case '/dashboard':
         return <Dashboard />;
+      case '/analytics':
+        return <Dashboard />;
+      case '/campaigns':
+        return <CampaignPage />;
       case '/logout':
       return <Logout />;
-
+      case '/subscriptions':
+      return <Subscriptions />;
+      
     default:
       return <DashboardContent />;
   }

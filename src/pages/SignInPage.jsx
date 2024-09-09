@@ -44,8 +44,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleSuccess = async (response) => {
-    console.log('Registration successful!', response);
-
     const decoded = jwtDecode(response.credential);
     const { email, sub, name } = decoded;
     const username = name.replace(/\s+/g, '');
@@ -64,7 +62,10 @@ const LoginPage = () => {
 
       localStorage.setItem('authToken', apiResponse.data.token);
       localStorage.setItem('activeuser', apiResponse.data.activeUser);
+      localStorage.setItem('proUser', res["claim.pro"]);
+      localStorage.setItem('id', res["claim.userId"]);
       window.location.reload();
+
     } catch (error) {
       console.error('Error during registration:', error);
     }
