@@ -30,7 +30,7 @@ const CampaignPage = () => {
 
   const fetchCampaigns = async () => {
     try {
-      const response = await axios.get('https://localhost:7174/Campaign/getUserCampaigns');
+      const response = await axios.get('https://midmailbackend.azurewebsites.net/Campaign/getUserCampaigns');
       setCampaigns(response.data);
     } catch (error) {
       console.error('Failed to fetch campaigns', error);
@@ -48,7 +48,7 @@ const CampaignPage = () => {
       const decodedToken = jwtDecode(token);
       const tokenUserId = decodedToken['claim.userId']; // Adjust this key if necessary
 
-      await axios.post('https://localhost:7174/Campaign/createCampaign', {
+      await axios.post('https://midmailbackend.azurewebsites.net/Campaign/createCampaign', {
         Name: campaignName,
         Description: campaignDescription,
         UserId: tokenUserId,
@@ -65,7 +65,7 @@ const CampaignPage = () => {
 
   const handleCampaignClick = async (campaignId) => {
     try {
-      const response = await axios.get(`https://localhost:7174/Email/getCampaignEmails?campaignId=${campaignId}`);
+      const response = await axios.get(`https://midmailbackend.azurewebsites.net/Email/getCampaignEmails?campaignId=${campaignId}`);
       setEmails(response.data || []); // Ensure emails is set to an empty array if response.data.Emails is undefined
       setSelectedCampaign(campaignId);
       setOpenDetailsModal(true);

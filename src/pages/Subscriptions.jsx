@@ -22,7 +22,7 @@ export default function Subscriptions() {
     try {const userId=localStorage.getItem('id')
         const token = localStorage.getItem('authToken');
       const response = await axios.post(
-        `https://localhost:7174/Authentication/subscribe?userId=${userId}` );
+        `https://midmailbackend.azurewebsites.net/Authentication/subscribe?userId=${userId}` );
       if (response.status === 200) {
         const { token } = response.data;
         localStorage.setItem('authToken', token); // Update authToken in localStorage

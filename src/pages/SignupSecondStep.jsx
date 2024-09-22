@@ -54,7 +54,7 @@ const SignupSecondStep = () => {
     }
 
     try {
-      const response = await axios.post('https://localhost:7174/Authentication/updateUserGoogleCredentials', {
+      const response = await axios.post('https://midmailbackend.azurewebsites.net/Authentication/updateUserGoogleCredentials', {
         email: formData.email,
         smtpServer: formData.smtpServer,
         smptPort: formData.smtpPort,

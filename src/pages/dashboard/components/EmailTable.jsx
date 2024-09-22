@@ -82,7 +82,7 @@ export default function EmailTable() {
   React.useEffect(() => {
     async function fetchEmails() {
       try {
-        const response = await axios.get('https://localhost:7174/Email/getUserEmails', {
+        const response = await axios.get('https://midmailbackend.azurewebsites.net/Email/getUserEmails', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

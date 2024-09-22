@@ -2,7 +2,7 @@ import React from 'react';
 import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
 import { jwtDecode } from "jwt-decode";
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -49,7 +49,7 @@ const LoginPage = () => {
     const username = name.replace(/\s+/g, '');
 
     try {
-      const apiResponse = await axios.post('https://localhost:7174/Authentication/register', {
+      const apiResponse = await axios.post('https://midmailbackend.azurewebsites.net/Authentication/register', {
         username: username,
         email: email,
         password: sub,
