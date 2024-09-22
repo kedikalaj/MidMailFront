@@ -89,11 +89,14 @@ const LoginPage = () => {
           Mid Mail
         </Typography>
         <br></br>
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
         <GoogleLogin
           type="dark"
           onSuccess={handleSuccess}
           onError={handleError}
         />
+    </GoogleOAuthProvider>
+
       </FullScreenContainer>
     </ThemeProvider>
   );
