@@ -78,24 +78,31 @@ export default function EmailTable() {
 
   const token = localStorage.getItem('authToken');
 
-  // Fetch data from the API
   React.useEffect(() => {
     async function fetchEmails() {
+      setLoading(true); // Set loading to true before the request
       try {
-        const response = await axios.get('https://midmailbackend.azurewebsites.net/Email/getEmailAnalytics', {
+        const response = await fetch('https://midmailbackend.azurewebsites.net/Email/getEmailAnalytics', {
+          method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
           },
         });
-
-        setEmails(response.data || []);
+  
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+  
+        const data = await response.json();
+        setEmails(data || []);
       } catch (ex) {
         setError(ex.message);
       } finally {
         setLoading(false);
       }
     }
-
+  
     fetchEmails();
   }, [token]);
 
