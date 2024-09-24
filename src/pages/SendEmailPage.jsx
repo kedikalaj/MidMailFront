@@ -79,7 +79,7 @@ const SendEmailPage = () => {
 
       // Make the Axios request with authorization header
       if (isActive) {
-        const response = await axios.post('https://midmailbackend.azurewebsites.net/Email/addScheduledEmail', emailData, {
+        const response = await axios.post('https://localhost:7174/Email/addScheduledEmail', emailData, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -114,7 +114,7 @@ const SendEmailPage = () => {
       const token = localStorage.getItem('authToken');
 
 
-      const response = await axios.post('https://midmailbackend.azurewebsites.net/Email/getCategorySugestion', { subject: subject }, {
+      const response = await axios.post('https://localhost:7174/Email/getCategorySugestion', { subject: subject }, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
